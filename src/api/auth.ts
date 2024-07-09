@@ -1,4 +1,4 @@
-import client from "@/lib/axios";
+import client, { skipAuthHeader, skipTokenHeader } from "@/lib/axios";
 import { User } from "./user";
 
 const ENDPOINT = "/auth";
@@ -24,7 +24,7 @@ export interface AuthResult {
 }
 
 export async function auth(credentials: AuthCredentials) {
-  const headers = {};
+  const headers = { [skipAuthHeader]: true };
   const { data } = await client.post<AuthResult>(ENDPOINT, credentials, {
     headers,
   });
@@ -38,6 +38,8 @@ export async function refresh(credentials: AuthRefreshCredentials) {
 
   const headers = {
     Authorization: `Bearer ${token}`,
+    [skipAuthHeader]: true,
+    [skipTokenHeader]: true,
   };
   const { data } = await client.post<AuthResult>(
     `${ENDPOINT}/refresh`,
