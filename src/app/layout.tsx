@@ -1,5 +1,6 @@
 import ReactQueryProvider from "@/components/providers/react-query";
 import { Toaster } from "@/components/ui/toaster";
+import { TooltipProvider } from "@/components/ui/tooltip";
 import type { Metadata } from "next";
 import { Geologica } from "next/font/google";
 import "./globals.css";
@@ -21,7 +22,9 @@ export default function RootLayout({
   return (
     <html lang="ru">
       <body className={font.className}>
-        <ReactQueryProvider>{children}</ReactQueryProvider>
+        <TooltipProvider>
+          <ReactQueryProvider>{children}</ReactQueryProvider>
+        </TooltipProvider>
         <Toaster />
       </body>
     </html>
