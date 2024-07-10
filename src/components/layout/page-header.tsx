@@ -1,3 +1,4 @@
+import { LayoutSearchContainer } from "@/app/(dashboard)/globals";
 import { cn } from "@/lib/utils";
 import { HTMLAttributes } from "react";
 import { Time } from "../utility/time";
@@ -20,7 +21,9 @@ export default function PageHeader({
       <SheetNavigation triggerClass="sm:hidden" />
       <div id={BreadcrumbsTargetID}></div>
       <Time className="hidden justify-self-center md:block" />
-      <div></div>
+      <div>
+        <LayoutSearchContainer />
+      </div>
     </header>
   );
 }
