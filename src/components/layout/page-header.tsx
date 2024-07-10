@@ -2,6 +2,8 @@ import { cn } from "@/lib/utils";
 import { HTMLAttributes } from "react";
 import SheetNavigation from "./sheet-navigation";
 
+export const BreadcrumbsTargetID = "breadcrumbs-target";
+
 export default function PageHeader({
   className,
   ...props
@@ -15,6 +17,7 @@ export default function PageHeader({
       {...props}
     >
       <SheetNavigation triggerClass="sm:hidden" />
+      <div id={BreadcrumbsTargetID}></div>
     </header>
   );
 }
