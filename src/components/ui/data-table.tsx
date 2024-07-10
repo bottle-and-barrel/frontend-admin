@@ -11,8 +11,10 @@ import { cn } from "@/lib/utils";
 import {
   Column,
   ColumnDef,
+  ColumnFiltersState,
   flexRender,
   getCoreRowModel,
+  getFilteredRowModel,
   getPaginationRowModel,
   getSortedRowModel,
   Table as ReactTable,
@@ -33,6 +35,7 @@ import {
 } from "lucide-react";
 import * as React from "react";
 import { Button } from "./button";
+import { Input, InputProps } from "./input";
 import {
   Select,
   SelectContent,
@@ -74,6 +77,11 @@ interface DataTablePaginationProps {
   selectable?: boolean;
 }
 
+// TODO: add field type - column accessor key
+interface DataTableTextFilterProps extends InputProps {
+  field: string;
+}
+
 const DataTableContext = React.createContext<DataTableContextProps | null>(
   null
 );
@@ -113,6 +121,9 @@ export function DataTable<TData, TValue>({
   slotBefore,
   slotAfter,
 }: DataTableProps<TData, TValue>) {
+  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
+    []
+  );
   const [sorting, setSorting] = React.useState<SortingState>([]);
 
   const table = useReactTable({
@@ -120,9 +131,11 @@ export function DataTable<TData, TValue>({
     columns,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: paginate ? getPaginationRowModel() : undefined,
+    getFilteredRowModel: getFilteredRowModel(),
     getSortedRowModel: getSortedRowModel(),
+    onColumnFiltersChange: setColumnFilters,
     onSortingChange: setSorting,
-    state: { sorting },
+    state: { columnFilters, sorting },
   });
 
   return (
@@ -328,5 +341,22 @@ export function DataTablePagination({ selectable }: DataTablePaginationProps) {
         </div>
       </div>
     </div>
+  );
+}
+
+export function DataTableTextFilter({
+  field,
+  ...props
+}: DataTableTextFilterProps) {
+  const { table } = useDatatableContext();
+
+  return (
+    <Input
+      value={(table.getColumn(field)?.getFilterValue() as string) ?? ""}
+      onChange={(event) =>
+        table.getColumn(field)?.setFilterValue(event.target.value)
+      }
+      {...props}
+    />
   );
 }
