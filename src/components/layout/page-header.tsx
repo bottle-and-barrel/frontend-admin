@@ -1,6 +1,6 @@
 import { cn } from "@/lib/utils";
 import { HTMLAttributes } from "react";
-import Time from "../utility/time";
+import { Time } from "../utility/time";
 import SheetNavigation from "./sheet-navigation";
 
 export const BreadcrumbsTargetID = "breadcrumbs-target";
