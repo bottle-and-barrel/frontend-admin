@@ -1,8 +1,11 @@
 import ReactQueryProvider from "@/components/providers/react-query";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import Moment from "@/components/utility/moment";
+import { updateMomentLocale } from "@/lib/utils";
 import type { Metadata } from "next";
 import { Geologica } from "next/font/google";
+
 import "./globals.css";
 
 const font = Geologica({ subsets: ["latin", "cyrillic"] });
@@ -19,9 +22,11 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  updateMomentLocale();
   return (
     <html lang="ru">
       <body className={font.className}>
+        <Moment />
         <TooltipProvider>
           <ReactQueryProvider>{children}</ReactQueryProvider>
         </TooltipProvider>
